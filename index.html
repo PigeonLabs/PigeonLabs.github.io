@@ -25,12 +25,12 @@
   </div>
 
   <script>
-    // 카테고리별 이미지 ID 리스트 (폴더 'traits'에 이미지 배치)
+    // 카테고리별 이미지 ID 리스트
     const traitIds = {
-      1: ["111", "112", "121", "122"],    // Body variants (e.g. color+shape)
-      2: ["21", "22", "23"],               // Eyes
-      3: ["31", "32", "33"],               // Mouth
-      4: ["41", "42"]                       // Hat
+      1: ["111","112","113","121","122","123","131","132","133","141","142","143","151","152","153"], // Body (color+shape)
+      2: ["21","22","23","24","25"],  // Eyes
+      3: ["31","32","33","34","35"],  // Mouth
+      4: ["41","42","43","44"]         // Hat
     };
 
     const imageCache = {};
@@ -55,7 +55,22 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       [1,2,3,4].forEach(cat => {
         const id = selected[cat];
-        if (id) ctx.drawImage(imageCache[id], 0, 0, canvas.width, canvas.height);
+        if (id) {
+          const img = imageCache[id];
+          const canvasRatio = canvas.width / canvas.height;
+          const imgRatio = img.width / img.height;
+          let drawWidth, drawHeight;
+          if (imgRatio > canvasRatio) {
+            drawWidth = canvas.width;
+            drawHeight = canvas.width / imgRatio;
+          } else {
+            drawHeight = canvas.height;
+            drawWidth = canvas.height * imgRatio;
+          }
+          const x = (canvas.width - drawWidth) / 2;
+          const y = (canvas.height - drawHeight) / 2;
+          ctx.drawImage(img, x, y, drawWidth, drawHeight);
+        }
       });
     }
 
@@ -68,26 +83,28 @@
         const h3 = document.createElement('h3'); h3.textContent = titleMap[cat];
         group.appendChild(h3);
 
-        traitIds[cat].forEach(id => {
+        traitIds[cat].forEach((id, index) => {
           const thumb = document.createElement('img');
           thumb.src = `traits/${id}.png`;
-          thumb.onclick = () => {
-            selected[cat] = id;
-            document.querySelectorAll(`.trait-group:nth-of-type(${cat}) img`).forEach(img=>img.classList.remove('selected'));
+          thumb.addEventListener('click', () => {
+            // 해당 그룹 내에서만 selected 제거
+            group.querySelectorAll('img').forEach(img => img.classList.remove('selected'));
+            // 현재 선택 적용
             thumb.classList.add('selected');
+            selected[cat] = id;
             drawCharacter();
-          };
+          });
           group.appendChild(thumb);
+
+          // 첫 번째 항목을 기본 선택
+          if (index === 0) {
+            thumb.classList.add('selected');
+            selected[cat] = id;
+          }
         });
+
         controls.appendChild(group);
       }
-      // 기본 선택 설정
-      Object.keys(traitIds).forEach(cat => {
-        selected[cat] = traitIds[cat][0];
-        // 첫 번째 썸네일에 selected 클래스
-        const img = controls.querySelector(`.trait-group:nth-of-type(${cat}) img`);
-        if (img) img.classList.add('selected');
-      });
     }
 
     // 초기화 순서
