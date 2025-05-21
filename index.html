@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Character Customizer Web</title>
+  <style>
+    body { margin: 0; display: flex; height: 100vh; font-family: sans-serif; }
+    #container { display: flex; flex: 1; }
+    #viewer { flex: 1; position: relative; background: #fff; }
+    canvas { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+    #controls { width: 300px; overflow-y: auto; background: #fafafa; border-left: 1px solid #ddd; padding: 10px; box-sizing: border-box; }
+    .trait-group { margin-bottom: 20px; }
+    .trait-group h3 { margin: 5px 0; }
+    .trait-group img { width: 50px; height: 50px; margin: 3px; cursor: pointer; border: 2px solid transparent; }
+    .trait-group img.selected { border-color: #007bff; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="viewer">
+      <canvas id="canvas" width="400" height="400"></canvas>
+    </div>
+    <div id="controls"></div>
+  </div>
+
+  <script>
+    // 카테고리별 이미지 ID 리스트 (폴더 'traits'에 이미지 배치)
+    const traitIds = {
+      1: ["111", "112", "121", "122"],    // Body variants (e.g. color+shape)
+      2: ["21", "22", "23"],               // Eyes
+      3: ["31", "32", "33"],               // Mouth
+      4: ["41", "42"]                       // Hat
+    };
+
+    const imageCache = {};
+    const selected = {};
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    function loadAll() {
+      const promises = [];
+      for (let cat in traitIds) {
+        traitIds[cat].forEach(id => {
+          const img = new Image();
+          img.src = `traits/${id}.png`;
+          imageCache[id] = img;
+          promises.push(new Promise(res => img.onload = res));
+        });
+      }
+      return Promise.all(promises);
+    }
+
+    function drawCharacter() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      [1,2,3,4].forEach(cat => {
+        const id = selected[cat];
+        if (id) ctx.drawImage(imageCache[id], 0, 0, canvas.width, canvas.height);
+      });
+    }
+
+    function makeControls() {
+      const controls = document.getElementById('controls');
+      for (let cat in traitIds) {
+        const group = document.createElement('div');
+        group.className = 'trait-group';
+        const titleMap = {1:'Body',2:'Eyes',3:'Mouth',4:'Hat'};
+        const h3 = document.createElement('h3'); h3.textContent = titleMap[cat];
+        group.appendChild(h3);
+
+        traitIds[cat].forEach(id => {
+          const thumb = document.createElement('img');
+          thumb.src = `traits/${id}.png`;
+          thumb.onclick = () => {
+            selected[cat] = id;
+            document.querySelectorAll(`.trait-group:nth-of-type(${cat}) img`).forEach(img=>img.classList.remove('selected'));
+            thumb.classList.add('selected');
+            drawCharacter();
+          };
+          group.appendChild(thumb);
+        });
+        controls.appendChild(group);
+      }
+      // 기본 선택 설정
+      Object.keys(traitIds).forEach(cat => {
+        selected[cat] = traitIds[cat][0];
+        // 첫 번째 썸네일에 selected 클래스
+        const img = controls.querySelector(`.trait-group:nth-of-type(${cat}) img`);
+        if (img) img.classList.add('selected');
+      });
+    }
+
+    // 초기화 순서
+    loadAll().then(() => {
+      makeControls();
+      drawCharacter();
+    });
+  </script>
+</body>
+</html>
