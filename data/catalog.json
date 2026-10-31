@@ -29,7 +29,7 @@
      "kind": "anomaly",
      "title": "이상 영상",
      "criterion": "q95",
-     "note": "계측기가 뒤집힌 채(뒷면이 위로) 판이 오르내리는 내내 놓여 있음",
+     "note": "계측기가 뒤집힌 채 놓여 있음",
      "key": "R02_testing_03",
      "sequence": "03",
      "frames": 573,

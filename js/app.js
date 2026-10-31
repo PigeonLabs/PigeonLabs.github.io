@@ -43,7 +43,7 @@ const css = (name) => getComputedStyle(document.documentElement).getPropertyValu
 /* ---------------- Catalog & sidebar ---------------- */
 
 async function loadCatalog() {
-  state.catalog = await fetch("data/catalog.json").then((r) => r.json());
+  state.catalog = await fetch("data/catalog.json?v=5").then((r) => r.json());
   renderScenes();
 }
 
