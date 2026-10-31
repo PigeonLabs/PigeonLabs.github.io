@@ -88,13 +88,13 @@ button { font: inherit; color: inherit; }
   background: transparent; cursor: pointer;
   transition: background-color 120ms ease-out, transform 100ms ease-out;
 }
-.icon-button:hover:not(:disabled) { background: var(--fill); }
+.icon-button:hover:not(:disabled), .play-button:hover:not(:disabled) { background: var(--fill); }
 .icon-button:active:not(:disabled), .play-button:active:not(:disabled) { transform: scale(0.94); }
 .icon-button:disabled, .play-button:disabled { opacity: 0.35; cursor: default; }
 .icon-button svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 
-.play-button { width: 36px; height: 36px; border-radius: 50%; background: var(--accent); color: #fff; }
-.play-button svg { width: 18px; height: 18px; fill: currentColor; }
+.play-button { color: var(--accent); }
+.play-button svg { width: 20px; height: 20px; fill: currentColor; }
 .play-button .icon-pause { display: none; }
 .play-button.playing .icon-play { display: none; }
 .play-button.playing .icon-pause { display: block; }
