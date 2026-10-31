@@ -1,0 +1,162 @@
+{
+ "scene": "R04",
+ "stride": 2,
+ "period": 396.0,
+ "grid": 128,
+ "temperature": 0.25309039308732495,
+ "harmonics": 8,
+ "thresholds": {
+  "paper": 7.0887780779706535,
+  "q99": 6.738822767355552,
+  "q95": 4.952299717083292
+ },
+ "calibrator_scales": {
+  "app_pooled": 2.197726971644447e-06,
+  "app_inside": 0.4333256912231447,
+  "app_local": 0.0509773528575897,
+  "c_outside": 2.1388239171748615e-06,
+  "c_inside": 0.4210778499428427
+ },
+ "arrays": {
+  "reducer_mean": {
+   "dtype": "float32",
+   "shape": [
+    3072
+   ],
+   "offset": 0
+  },
+  "reducer_components": {
+   "dtype": "float32",
+   "shape": [
+    24,
+    3072
+   ],
+   "offset": 12288
+  },
+  "tracker_scale": {
+   "dtype": "float32",
+   "shape": [
+    24
+   ],
+   "offset": 307200
+  },
+  "template": {
+   "dtype": "float64",
+   "shape": [
+    128,
+    48
+   ],
+   "offset": 307296
+  },
+  "pooled_mean": {
+   "dtype": "float32",
+   "shape": [
+    3072
+   ],
+   "offset": 356448
+  },
+  "pooled_basis": {
+   "dtype": "float32",
+   "shape": [
+    64,
+    3072
+   ],
+   "offset": 368736
+  },
+  "pooled_eigen": {
+   "dtype": "float32",
+   "shape": [
+    64
+   ],
+   "offset": 1155168
+  },
+  "local_bank": {
+   "dtype": "float32",
+   "shape": [
+    88,
+    36,
+    64
+   ],
+   "offset": 1155424
+  },
+  "coef": {
+   "dtype": "float32",
+   "shape": [
+    17,
+    3072
+   ],
+   "offset": 1966432
+  },
+  "space_mean": {
+   "dtype": "float32",
+   "shape": [
+    3072
+   ],
+   "offset": 2175328
+  },
+  "space_basis": {
+   "dtype": "float32",
+   "shape": [
+    64,
+    3072
+   ],
+   "offset": 2187616
+  },
+  "space_eigen": {
+   "dtype": "float32",
+   "shape": [
+    64
+   ],
+   "offset": 2974048
+  },
+  "overlay_median": {
+   "dtype": "float64",
+   "shape": [
+    36
+   ],
+   "offset": 2974304
+  },
+  "overlay_spread": {
+   "dtype": "float64",
+   "shape": [
+    36
+   ],
+   "offset": 2974592
+  },
+  "cal_app_pooled": {
+   "dtype": "float64",
+   "shape": [
+    565
+   ],
+   "offset": 2974880
+  },
+  "cal_app_inside": {
+   "dtype": "float64",
+   "shape": [
+    565
+   ],
+   "offset": 2979400
+  },
+  "cal_app_local": {
+   "dtype": "float64",
+   "shape": [
+    565
+   ],
+   "offset": 2983920
+  },
+  "cal_c_outside": {
+   "dtype": "float64",
+   "shape": [
+    565
+   ],
+   "offset": 2988440
+  },
+  "cal_c_inside": {
+   "dtype": "float64",
+   "shape": [
+    565
+   ],
+   "offset": 2992960
+  }
+ }
+}

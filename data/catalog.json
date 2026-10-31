@@ -1,0 +1,118 @@
+{
+ "scenes": [
+  {
+   "id": "R02",
+   "name": "리프트",
+   "ready": true,
+   "period": 595.5,
+   "stride": 2,
+   "thresholds": {
+    "paper": 7.675297543508358,
+    "q99": 5.478135793123873,
+    "q95": 3.1363299869765457
+   },
+   "videos": [
+    {
+     "id": "R02/training/11",
+     "kind": "normal",
+     "title": "정상 영상",
+     "criterion": "paper",
+     "note": "학습에 쓰지 않은 정상 영상",
+     "key": "R02_training_11",
+     "sequence": "11",
+     "frames": 600,
+     "labeled": true,
+     "anomalous_frames": 0
+    },
+    {
+     "id": "R02/testing/03",
+     "kind": "anomaly",
+     "title": "이상 영상",
+     "criterion": "q95",
+     "note": "계측기가 뒤집힌 채(뒷면이 위로) 판이 오르내리는 내내 놓여 있음",
+     "key": "R02_testing_03",
+     "sequence": "03",
+     "frames": 573,
+     "labeled": true,
+     "anomalous_frames": 296
+    }
+   ]
+  },
+  {
+   "id": "R03",
+   "name": "지게차",
+   "ready": true,
+   "period": 705.5,
+   "stride": 2,
+   "thresholds": {
+    "paper": 5.847401702431117,
+    "q99": 5.154254521871173,
+    "q95": 3.282452344969581
+   },
+   "videos": [
+    {
+     "id": "R03/training/07",
+     "kind": "normal",
+     "title": "정상 영상",
+     "criterion": "paper",
+     "note": "학습에 쓰지 않은 정상 영상",
+     "key": "R03_training_07",
+     "sequence": "07",
+     "frames": 689,
+     "labeled": true,
+     "anomalous_frames": 0
+    },
+    {
+     "id": "R03/testing/10",
+     "kind": "anomaly",
+     "title": "이상 영상",
+     "criterion": "q95",
+     "note": "지게차가 짐을 든 채 약 100프레임 멈춤",
+     "key": "R03_testing_10",
+     "sequence": "10",
+     "frames": 647,
+     "labeled": true,
+     "anomalous_frames": 202
+    }
+   ]
+  },
+  {
+   "id": "R04",
+   "name": "절단",
+   "ready": true,
+   "period": 396.0,
+   "stride": 2,
+   "thresholds": {
+    "paper": 7.0887780779706535,
+    "q99": 6.738822767355552,
+    "q95": 4.952299717083292
+   },
+   "videos": [
+    {
+     "id": "R04/training/05",
+     "kind": "normal",
+     "title": "정상 영상",
+     "criterion": "paper",
+     "note": "학습에 쓰지 않은 정상 영상",
+     "key": "R04_training_05",
+     "sequence": "05",
+     "frames": 437,
+     "labeled": true,
+     "anomalous_frames": 0
+    },
+    {
+     "id": "R04/testing/13",
+     "kind": "anomaly",
+     "title": "이상 영상",
+     "criterion": "q99",
+     "note": "첫 절단이 늦고 잘린 조각이 정상보다 적음",
+     "key": "R04_testing_13",
+     "sequence": "13",
+     "frames": 464,
+     "labeled": true,
+     "anomalous_frames": 375
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CycleVAD</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="window" id="window">
+  <header class="toolbar">
+    <div class="toolbar-leading">
+      <button class="icon-button" id="toggleSidebar" aria-label="사이드바 보기/가리기" aria-pressed="true" title="사이드바 보기/가리기 (S)">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13" rx="3"/><path d="M7.5 3.5v13"/></svg>
+      </button>
+      <div class="title-block">
+        <h1>CycleVAD</h1>
+      </div>
+    </div>
+    <div class="toolbar-trailing">
+      <button class="icon-button" id="restart" aria-label="처음부터 다시 분석" title="처음부터 다시 분석 (R)" disabled>
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4.5 10a5.5 5.5 0 1 0 1.7-4"/><path d="M4.2 3.2v3.3h3.3"/></svg>
+      </button>
+      <button class="play-button" id="play" aria-label="재생" title="재생/일시정지 (Space)" disabled>
+        <svg class="icon-play" viewBox="0 0 20 20" aria-hidden="true"><path d="M6.5 4.6v10.8a.6.6 0 0 0 .9.5l8.6-5.4a.6.6 0 0 0 0-1L7.4 4.1a.6.6 0 0 0-.9.5z"/></svg>
+        <svg class="icon-pause" viewBox="0 0 20 20" aria-hidden="true"><rect x="5.5" y="4.5" width="3" height="11" rx="1"/><rect x="11.5" y="4.5" width="3" height="11" rx="1"/></svg>
+      </button>
+      <div class="segmented" role="radiogroup" aria-label="계산 방식" id="runMode">
+        <button role="radio" data-run="preprocessed" aria-checked="true" title="Python 온라인 검출기로 미리 한 프레임씩 처리한 결과를 재생">사전 계산</button>
+        <button role="radio" data-run="realtime" aria-checked="false" title="이 브라우저에서 WebGPU로 DINOv2와 A+C를 직접 계산 (처음 한 번 모델 173MB 내려받음)">실시간</button>
+      </div>
+      <div class="segmented" role="radiogroup" aria-label="재생 속도" id="fpsControl">
+        <button role="radio" data-fps="15" aria-checked="false">15 fps</button>
+        <button role="radio" data-fps="30" aria-checked="true">30 fps</button>
+        <button role="radio" data-fps="60" aria-checked="false">60 fps</button>
+        <button role="radio" data-fps="0" aria-checked="false">최대</button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="sidebar" id="sidebar" aria-label="테스트 영상">
+    <ul class="video-list" id="videoList" role="listbox" aria-label="시연 영상"></ul>
+    <p class="credit">영상: <a href="https://ljf1113.github.io/IPAD_VAD/" target="_blank" rel="noopener">IPAD</a> (Liu et al., 2024)</p>
+  </nav>
+
+  <main class="content">
+    <section class="stage" id="stage" aria-label="영상">
+      <canvas id="frame" width="256" height="256" aria-hidden="true"></canvas>
+      <div class="stage-ring" aria-hidden="true"></div>
+      <div class="stage-badge" id="badge" aria-hidden="true"><span class="dot"></span>이상 감지</div>
+      <div class="stage-chip" id="frameChip" aria-hidden="true">—</div>
+      <div class="stage-empty" id="empty">
+        <p class="empty-title">실시간 이상 탐지</p>
+        <p class="empty-body">왼쪽에서 이상 영상이나 정상 비교 영상을 고르세요. 각 프레임은 들어오는 순서대로 한 번만 처리되며, 뒤 프레임은 미리 보지 않습니다.</p>
+      </div>
+      <div class="stage-loading" id="loading" hidden><span class="spinner" aria-hidden="true"></span><span id="loadingText">준비 중</span></div>
+    </section>
+
+    <section class="timeline-card" aria-label="점수 타임라인">
+      <div class="card-header">
+        <h2>A+C 이상 점수</h2>
+        <ul class="legend">
+          <li><span class="swatch line"></span>점수</li>
+          <li><span class="swatch dash"></span>임계값</li>
+          <li><span class="swatch alarm"></span>이상 판정</li>
+          <li class="gt-legend"><span class="swatch gt"></span>정답 구간</li>
+        </ul>
+      </div>
+      <canvas id="timeline" aria-hidden="true"></canvas>
+    </section>
+  </main>
+
+  <aside class="inspector" aria-label="실시간 수치">
+    <section class="status" id="status">
+      <div class="status-row" aria-live="polite"><span class="status-dot"></span><span class="status-text" id="statusText">대기</span></div>
+      <p class="status-detail" id="statusDetail">점수 — / 임계값 —</p>
+    </section>
+
+    <section class="phase" aria-label="공정 주기 위치">
+      <svg viewBox="0 0 200 200" id="phaseDial" aria-hidden="true">
+        <circle class="dial-track" cx="100" cy="100" r="78"/>
+        <g id="dialTicks"></g>
+        <g id="dialTrail"></g>
+        <circle class="dial-knob" id="dialKnob" cx="100" cy="22" r="7"/>
+      </svg>
+      <div class="phase-center">
+        <span class="phase-value" id="thetaValue">—</span>
+        <span class="phase-label">공정 주기 위치 θ</span>
+      </div>
+    </section>
+
+    <section class="metrics" aria-label="점수 구성">
+      <div class="metric-bar" id="barA">
+        <div class="metric-head"><span>A <small>일반 외형</small></span><b>—</b></div>
+        <div class="bar"><i></i><em></em></div>
+      </div>
+      <div class="metric-bar" id="barC">
+        <div class="metric-head"><span>C <small>위치 조건부 외형</small></span><b>—</b></div>
+        <div class="bar"><i></i><em></em></div>
+      </div>
+      <p class="metric-note">최종 점수 = max(A, C). 막대의 눈금은 임계값입니다.</p>
+    </section>
+
+    <section class="stats" aria-label="처리 상태">
+      <div><span>처리 속도</span><b id="statFps">—</b></div>
+      <div><span id="statLatencyLabel">추론 지연</span><b id="statLatency">—</b></div>
+      <div><span>경보 구간</span><b id="statEvents">—</b></div>
+      <div><span>경보 프레임</span><b id="statAlarmRate">—</b></div>
+    </section>
+
+    <section class="truth" aria-label="정답 대비 (평가용)">
+      <h2>정답 대비 <small>평가용 · 탐지에 쓰이지 않음</small></h2>
+      <div class="truth-grid">
+        <div><span>정답 구간 탐지</span><b id="truthEvents">—</b></div>
+        <div><span>프레임 재현율</span><b id="truthRecall">—</b></div>
+        <div><span>오경보율</span><b id="truthFpr">—</b></div>
+      </div>
+    </section>
+
+  </aside>
+</div>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
