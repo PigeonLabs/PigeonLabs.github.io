@@ -70,7 +70,6 @@ function videoRow(scene, v) {
   const result = state.results.get(v.id);
   const live = v.id === state.video && (state.mode === "playing" || state.mode === "paused" || state.mode === "loading");
   li.innerHTML = `<div><div class="row-title">${escapeHtml(v.title)}</div>
-    <div class="row-meta">${v.frames.toLocaleString()} 프레임</div>
     <div class="row-note">${escapeHtml(v.note)}</div></div>
     <div class="row-result">${live ? "분석 중" : result ? `경보 ${result.alarms}` : ""}</div>`;
   li.addEventListener("click", () => scene.ready && start(v.id));
@@ -352,12 +351,12 @@ function drawTimeline() {
   const ctx = els.timeline.getContext("2d");
   ctx.clearRect(0, 0, w, h);
   const r = state.run;
-  const pad = { l: 0, r: 0, t: 6 * dpr, b: 14 * dpr };
+  const pad = { l: 0, r: 0, t: 6 * dpr, b: 20 * dpr }; // bottom 12px: ground-truth strip
   const plotH = h - pad.t - pad.b;
   const label2 = css("--label-2"), labelColor = css("--label"), red = css("--red"), gt = css("--gt"), fill = css("--fill");
 
   ctx.fillStyle = fill;
-  ctx.fillRect(0, h - 8 * dpr, w, 6 * dpr);
+  ctx.fillRect(0, h - 13 * dpr, w, 12 * dpr);
   if (!r || !state.meta) return;
 
   const n = r.n, x = (i) => (i / Math.max(1, n - 1)) * w;
@@ -382,7 +381,7 @@ function drawTimeline() {
   while (i < r.seen) {
     if (r.gt[i] !== 1) { i++; continue; }
     const s = i; while (i < r.seen && r.gt[i] === 1) i++;
-    ctx.fillRect(x(s), h - 8 * dpr, Math.max(x(i) - x(s), dpr), 6 * dpr);
+    ctx.fillRect(x(s), h - 13 * dpr, Math.max(x(i) - x(s), dpr), 12 * dpr);
   }
 
   // Threshold
