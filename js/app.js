@@ -1,4 +1,4 @@
-import { Player } from "./player.js";
+import { Player } from "./player.js?v=2";
 
 "use strict";
 

@@ -108,7 +108,13 @@ async function features(bytes) {
   return { global: out.global.data, patches: out.patches.data };
 }
 
-self.onmessage = async ({ data }) => {
+// Requests are handled strictly one at a time. Switching videos mid-inference otherwise ran two
+// session.run calls on the same WebGPU session at once (which hangs) and let the old video's
+// frame step the new video's detector.
+let queue = Promise.resolve();
+self.onmessage = ({ data }) => { queue = queue.then(() => handle(data)); };
+
+async function handle(data) {
   try {
     if (data.type === "start") {
       if (!loading) loading = loadRuntime().catch((e) => { loading = null; throw e; });
@@ -125,4 +131,4 @@ self.onmessage = async ({ data }) => {
   } catch (error) {
     postMessage({ type: "error", id: data.id, message: String(error && error.message ? error.message : error) });
   }
-};
+}
