@@ -61,7 +61,7 @@ button { font: inherit; color: inherit; }
 /* ---------- Window grid ---------- */
 .window {
   display: grid;
-  grid-template-columns: 248px minmax(0, 1fr) 312px;
+  grid-template-columns: 312px minmax(0, 1fr) 312px;
   grid-template-rows: 56px minmax(0, 1fr);
   grid-template-areas: "toolbar toolbar toolbar" "sidebar content inspector";
   height: 100vh;
@@ -279,7 +279,7 @@ button { font: inherit; color: inherit; }
 /* ---------- Narrow windows ---------- */
 @media (max-width: 1080px) {
   body { overflow: auto; }
-  .window { grid-template-columns: 220px minmax(0, 1fr); grid-template-rows: 56px auto auto;
+  .window { grid-template-columns: 300px minmax(0, 1fr); grid-template-rows: 56px auto auto;
             grid-template-areas: "toolbar toolbar" "sidebar content" "inspector inspector"; height: auto; min-height: 100vh; }
   .window.sidebar-hidden { grid-template-columns: 0 minmax(0, 1fr); }
   .content { grid-template-rows: auto auto; }
