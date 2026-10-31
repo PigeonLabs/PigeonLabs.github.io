@@ -26,8 +26,8 @@
         <svg class="icon-pause" viewBox="0 0 20 20" aria-hidden="true"><rect x="5.5" y="4.5" width="3" height="11" rx="1"/><rect x="11.5" y="4.5" width="3" height="11" rx="1"/></svg>
       </button>
       <div class="segmented" role="radiogroup" aria-label="계산 방식" id="runMode">
-        <button role="radio" data-run="preprocessed" aria-checked="true" title="Python 온라인 검출기로 미리 한 프레임씩 처리한 결과를 재생">사전 계산</button>
-        <button role="radio" data-run="realtime" aria-checked="false" title="이 브라우저에서 WebGPU로 DINOv2와 A+C를 직접 계산 (처음 한 번 모델 173MB 내려받음)">실시간</button>
+        <button role="radio" data-run="preprocessed" aria-checked="true" title="Python 온라인 검출기로 미리 한 프레임씩 처리한 결과를 재생">사전계산(Precomputed)</button>
+        <button role="radio" data-run="realtime" aria-checked="false" title="이 브라우저에서 WebGPU로 DINOv2와 A+C를 직접 계산 (처음 한 번 모델 173MB 내려받음)">실시간(On-device)</button>
       </div>
       <div class="segmented" role="radiogroup" aria-label="재생 속도" id="fpsControl">
         <button role="radio" data-fps="15" aria-checked="false">15 fps</button>
