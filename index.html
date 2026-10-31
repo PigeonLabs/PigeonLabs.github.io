@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CycleVAD</title>
-<link rel="stylesheet" href="app.css?v=3">
+<link rel="stylesheet" href="app.css?v=4">
 </head>
 <body>
 <div class="window" id="window">
@@ -38,7 +38,6 @@
 
   <nav class="sidebar" id="sidebar" aria-label="테스트 영상">
     <ul class="video-list" id="videoList" role="listbox" aria-label="시연 영상"></ul>
-    <p class="credit">영상: <a href="https://ljf1113.github.io/IPAD_VAD/" target="_blank" rel="noopener">IPAD</a> (Liu et al., 2024)</p>
   </nav>
 
   <main class="content">
@@ -107,7 +106,7 @@
     </section>
 
     <section class="truth" aria-label="정답 대비 (평가용)">
-      <h2>정답 대비 <small>평가용 · 탐지에 쓰이지 않음</small></h2>
+      <h2>정답 대비</h2>
       <div class="truth-grid">
         <div><span>정답 구간 탐지</span><b id="truthEvents">—</b></div>
         <div><span>프레임 재현율</span><b id="truthRecall">—</b></div>
@@ -117,6 +116,6 @@
 
   </aside>
 </div>
-<script type="module" src="js/app.js?v=3"></script>
+<script type="module" src="js/app.js?v=4"></script>
 </body>
 </html>

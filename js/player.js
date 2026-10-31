@@ -11,7 +11,7 @@ const frameUrl = (key, i) => `data/frames/${key}/${String(i).padStart(3, "0")}.j
 
 class RealtimeWorker {
   constructor(onStatus) {
-    this.worker = new Worker(new URL("./realtime-worker.js?v=2", import.meta.url), { type: "module" });
+    this.worker = new Worker(new URL("./realtime-worker.js?v=4", import.meta.url), { type: "module" });
     this.pending = new Map();
     this.next = 0;
     this.worker.onmessage = ({ data }) => {

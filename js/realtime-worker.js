@@ -82,7 +82,7 @@ async function loadRuntime() {
     provider = "wasm";
     session = await ort.InferenceSession.create(graph, { executionProviders: [provider], externalData });
   }
-  backend = `${provider === "webgpu" ? "WebGPU" : "WASM"} ${variant.toUpperCase()}`;
+  backend = provider === "webgpu" ? "WebGPU" : "WASM";
   status("셰이더 준비 중");
   const zeros = new ort.Tensor("float32", new Float32Array(3 * IMAGE_SIZE * IMAGE_SIZE), [1, 3, IMAGE_SIZE, IMAGE_SIZE]);
   await session.run({ pixel_values: zeros });

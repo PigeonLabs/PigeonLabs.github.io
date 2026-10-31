@@ -132,8 +132,6 @@ button { font: inherit; color: inherit; }
 .group-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding: 0 10px 4px; }
 .group-head span { font-size: 13px; font-weight: 600; }
 .group-head small { font-size: 11px; color: var(--label-2); font-variant-numeric: tabular-nums; }
-.credit { font-size: 11px; color: var(--label-2); padding: 0 10px; }
-.credit a { color: inherit; }
 .group-rows { list-style: none; margin: 0; padding: 0; }
 .video-list { list-style: none; margin: 0; padding: 0; overflow-y: auto; flex: 1; scrollbar-width: thin; }
 .video-row {
@@ -276,7 +274,6 @@ button { font: inherit; color: inherit; }
 .stats span, .truth-grid span { font-size: 11px; color: var(--label-2); }
 .stats b, .truth-grid b { font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
 
-.truth h2 small { display: block; font-weight: 400; font-size: 11px; color: var(--label-2); margin-top: 1px; }
 .truth-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
 
 /* ---------- Narrow windows ---------- */
