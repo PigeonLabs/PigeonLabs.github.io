@@ -89,14 +89,14 @@
    },
    "videos": [
     {
-     "id": "R04/training/05",
+     "id": "R04/training/08",
      "kind": "normal",
      "title": "정상 영상",
      "criterion": "paper",
      "note": "정상 공정 영상",
-     "key": "R04_training_05",
-     "sequence": "05",
-     "frames": 437,
+     "key": "R04_training_08",
+     "sequence": "08",
+     "frames": 413,
      "labeled": true,
      "anomalous_frames": 0
     },
